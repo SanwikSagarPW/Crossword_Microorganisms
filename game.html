@@ -102,7 +102,43 @@
 
     <audio src="music.mp3" loop id="bg-music"></audio>
 
+    <!-- Music toggle button -->
+    <button class="music-btn" id="music-btn" title="Toggle Music">🔊</button>
+
     <script src="AnalyticsManager.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Music persistence from landing page
+        const bgMusic = document.getElementById('bg-music');
+        const musicBtn = document.getElementById('music-btn');
+        let musicPlaying = false;
+
+        bgMusic.volume = 0.4;
+
+        function setMusicState(playing) {
+            musicPlaying = playing;
+            musicBtn.textContent = playing ? '🔊' : '🔇';
+            musicBtn.classList.toggle('muted', !playing);
+            sessionStorage.setItem('musicPlaying', playing ? '1' : '0');
+        }
+
+        // Restore state from landing page
+        const savedState = sessionStorage.getItem('musicPlaying');
+        if (savedState === '1') {
+            bgMusic.play().then(() => setMusicState(true)).catch(() => setMusicState(false));
+        } else {
+            setMusicState(false);
+        }
+
+        musicBtn.addEventListener('click', () => {
+            if (musicPlaying) {
+                bgMusic.pause();
+                setMusicState(false);
+            } else {
+                bgMusic.play().catch(() => {});
+                setMusicState(true);
+            }
+        });
+    </script>
 </body>
 </html>
