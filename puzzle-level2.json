@@ -1,0 +1,118 @@
+{
+  "metadata": {
+    "title": "Invisible World - Level 2",
+    "author": "Physics Wallah",
+    "level": 2,
+    "difficulty": "Advanced",
+    "size": {
+      "rows": 16,
+      "cols": 16
+    }
+  },
+  "clues": {
+    "across": [
+      {
+        "number": 1,
+        "clue": "The control centre of a cell that contains DNA",
+        "answer": "NUCLEUS",
+        "direction": "across",
+        "row": 0,
+        "col": 0,
+        "hint": "This organelle directs all cell activities and stores genetic information",
+        "xp": 10
+      },
+      {
+        "number": 3,
+        "clue": "Group of similar cells performing the same function",
+        "answer": "TISSUE",
+        "direction": "across",
+        "row": 4,
+        "col": 1,
+        "hint": "Muscle cells group together to form muscle ___",
+        "xp": 10
+      },
+      {
+        "number": 5,
+        "clue": "A tiny hair-like structure on some bacteria used for movement",
+        "answer": "FLAGELLA",
+        "direction": "across",
+        "row": 7,
+        "col": 5,
+        "hint": "Like a whip or tail that helps bacteria swim",
+        "xp": 10
+      },
+      {
+        "number": 7,
+        "clue": "The process of using microbes to produce beer or bread (yeast activity)",
+        "answer": "FERMENTATION",
+        "direction": "across",
+        "row": 11,
+        "col": 2,
+        "hint": "Yeast converts sugar into alcohol and CO₂ through this process",
+        "xp": 10
+      },
+      {
+        "number": 9,
+        "clue": "Membrane-bound structures within a cell (e.g. mitochondria)",
+        "answer": "ORGANELLES",
+        "direction": "across",
+        "row": 1,
+        "col": 5,
+        "hint": "Think of these as tiny organs inside a cell, each with a specific job",
+        "xp": 10
+      }
+    ],
+    "down": [
+      {
+        "number": 1,
+        "clue": "Single-celled microorganism without a defined nucleus",
+        "answer": "BACTERIA",
+        "direction": "down",
+        "row": 0,
+        "col": 0,
+        "hint": "Prokaryotic organisms; E. coli is an example",
+        "xp": 10
+      },
+      {
+        "number": 2,
+        "clue": "Organisms composed of many cells (e.g. humans)",
+        "answer": "MULTICELLULAR",
+        "direction": "down",
+        "row": 0,
+        "col": 6,
+        "hint": "Animals, plants, and fungi are all made of many cells working together",
+        "xp": 10
+      },
+      {
+        "number": 4,
+        "clue": "Microscopic plant-like organisms that perform photosynthesis in water",
+        "answer": "MICROALGAE",
+        "direction": "down",
+        "row": 2,
+        "col": 3,
+        "hint": "These green microbes make their own food using sunlight in water bodies",
+        "xp": 10
+      },
+      {
+        "number": 6,
+        "clue": "Single-celled organism with a nucleus, e.g. Amoeba or Paramecium",
+        "answer": "PROTOZOA",
+        "direction": "down",
+        "row": 5,
+        "col": 9,
+        "hint": "Eukaryotic microorganisms that move using pseudopodia or cilia",
+        "xp": 10
+      },
+      {
+        "number": 8,
+        "clue": "Microbes used to enrich soil through nitrogen fixation",
+        "answer": "MANURE",
+        "direction": "down",
+        "row": 9,
+        "col": 11,
+        "hint": "Organic matter from decomposed plants/animals with helpful bacteria",
+        "xp": 10
+      }
+    ]
+  }
+}
