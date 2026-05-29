@@ -1,18 +1,18 @@
 :root {
-    --background-color: #090f09;
-    --grid-background: #0d150c;
-    --cell-background: #111c0f;
-    --text-color: #d0ffd8;
-    --accent-color: #39ff14;
-    --highlight-color: rgba(57, 255, 20, 0.09);
-    --focus-color: rgba(57, 255, 20, 0.18);
-    --focus-outline: #39ff14;
-    --correct-color: rgba(57, 255, 20, 0.15);
-    --incorrect-color: rgba(255, 50, 50, 0.22);
-    --border-color: rgba(57, 255, 20, 0.28);
-    --hint-color: rgba(255, 214, 0, 0.1);
-    --xp-color: #ffd700;
-    --empty-cell: #040804;
+    --background-color: #01201c;
+    --grid-background: #01332e;
+    --cell-background: #01443c;
+    --text-color: #03dac6;
+    --accent-color: #03dac6;
+    --highlight-color: rgba(3,218,198,0.09);
+    --focus-color: rgba(3,218,198,0.18);
+    --focus-outline: #03dac6;
+    --correct-color: rgba(3,218,198,0.15);
+    --incorrect-color: rgba(3,218,198,0.22);
+    --border-color: rgba(3,218,198,0.28);
+    --hint-color: rgba(3,218,198,0.1);
+    --xp-color: #03dac6;
+    --empty-cell: #01201c;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,11 +46,11 @@ body {
 .subtitle { margin-top: 4px; font-size: clamp(0.72em, 1.5vw, 0.88em); color: rgba(208,255,216,0.5); letter-spacing: 1px; }
 
 .stats-display { display: flex; justify-content: center; gap: 15px; margin-top: 12px; flex-wrap: wrap; }
-.stat-box { font-size: 0.88em; font-weight: bold; background: rgba(57,255,20,0.05); border: 1px solid rgba(57,255,20,0.18); padding: 4px 14px; border-radius: 20px; }
-.stat-box .stat-label { color: rgba(208,255,216,0.5); margin-right: 4px; }
+.stat-box { font-size: 0.88em; font-weight: bold; background: rgba(3,218,198,0.05); border: 1px solid rgba(3,218,198,0.18); padding: 4px 14px; border-radius: 20px; }
+.stat-box .stat-label { color: rgba(3,218,198,0.5); margin-right: 4px; }
 .xp-display .stat-value { color: var(--xp-color); }
 .accuracy-display .stat-value { color: var(--accent-color); }
-.attempts-display .stat-value { color: rgba(208,255,216,0.7); }
+.attempts-display .stat-value { color: rgba(3,218,198,0.7); }
 
 .level-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 12px; }
 .level-btn {
@@ -72,12 +72,12 @@ body {
 /* --- HINT BOX --- */
 .hint-display {
     grid-column: 1 / -1;
-    background-color: rgba(255, 214, 0, 0.07);
+    background-color: rgba(3,218,198,0.07);
     border-left: 3px solid var(--xp-color);
     padding: 10px 15px;
     border-radius: 4px;
     font-size: 0.88em;
-    color: #ffe082;
+    color: var(--xp-color);
     font-weight: 500;
     display: flex;
     gap: 8px;
@@ -223,8 +223,8 @@ li.highlighted { background-color: rgba(57,255,20,0.12); color: var(--accent-col
     right: 20px;
     width: 44px;
     height: 44px;
-    background-color: rgba(17, 28, 15, 0.9);
-    border: 1px solid rgba(57,255,20,0.3);
+    background-color: rgba(1,32,28,0.9);
+    border: 1px solid rgba(3,218,198,0.3);
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -236,8 +236,8 @@ li.highlighted { background-color: rgba(57,255,20,0.12); color: var(--accent-col
     z-index: 100;
     backdrop-filter: blur(4px);
 }
-.music-btn:hover { border-color: rgba(57,255,20,0.6); background-color: rgba(57,255,20,0.1); }
-.music-btn.muted { color: rgba(208,255,216,0.3); border-color: rgba(57,255,20,0.12); }
+.music-btn:hover { border-color: rgba(3,218,198,0.6); background-color: rgba(3,218,198,0.1); }
+.music-btn.muted { color: rgba(3,218,198,0.3); border-color: rgba(3,218,198,0.12); }
 
 /* --- RESPONSIVE --- */
 @media (max-width: 1000px) {
