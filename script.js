@@ -530,8 +530,116 @@ document.addEventListener('DOMContentLoaded', () => {
             // Update live stats
             currentAccuracyValue.textContent = `${accuracy}%`;
             attemptsValue.textContent = checkAttempts;
-            alert(`Not quite right! Keep trying. 💚\n\nCorrect: ${correctCount} | Incorrect: ${incorrectCount} | Empty: ${emptyCount}`);
+
+            // Send analytics on every submit
+            const submitPayload = {
+                event: 'level_submit',
+                level: currentLevel,
+                attempt: checkAttempts,
+                accuracy: parseFloat(accuracy),
+                xpEarned: earnedXP,
+                timeTaken: Date.now() - levelStartTime,
+                correct: correctCount,
+                incorrect: incorrectCount,
+                empty: emptyCount
+            };
+            analytics.submitReport();
+            try { if (window.ReactNativeWebView) window.ReactNativeWebView.postMessage(JSON.stringify(submitPayload)); } catch(e) {}
+            try { window.parent.postMessage(submitPayload, '*'); } catch(e) {}
+
+            // Show submit modal instead of alert
+            showSubmitModal(correctCount, incorrectCount, emptyCount, accuracy, earnedXP);
         }
+    }
+
+    function showSubmitModal(correct, incorrect, empty, accuracy, xpEarned) {
+        let existing = document.getElementById('submit-modal-overlay');
+        if (existing) existing.remove();
+
+        const hasNextLevel = (currentLevel === 1 && !level2Completed);
+        const modal = document.createElement('div');
+        modal.id = 'submit-modal-overlay';
+        modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(1,32,28,0.85);backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:center;z-index:2000;';
+        modal.innerHTML = `
+            <div style="background:var(--card-background);border:1px solid var(--accent-color);border-radius:16px;padding:32px;max-width:400px;width:90%;text-align:center;">
+                <h2 style="color:var(--accent-color);margin-bottom:16px;">📊 Progress Report</h2>
+                <div style="text-align:left;margin-bottom:20px;line-height:2;">
+                    <div>✅ Correct: <strong>${correct}</strong></div>
+                    <div>❌ Incorrect: <strong>${incorrect}</strong></div>
+                    <div>⬜ Empty: <strong>${empty}</strong></div>
+                    <div>🎯 Accuracy: <strong>${accuracy}%</strong></div>
+                    <div>⭐ XP Earned: <strong>${xpEarned}</strong></div>
+                </div>
+                <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+                    <button id="submit-modal-retry" style="padding:10px 24px;border-radius:8px;border:1px solid var(--accent-color);background:transparent;color:var(--accent-color);cursor:pointer;font-family:inherit;font-weight:bold;">Retry</button>
+                    ${hasNextLevel ? '<button id="submit-modal-next" style="padding:10px 24px;border-radius:8px;border:none;background:var(--accent-color);color:var(--background-color);cursor:pointer;font-family:inherit;font-weight:bold;">Next Level →</button>' : ''}
+                </div>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        document.getElementById('submit-modal-retry').addEventListener('click', () => modal.remove());
+        if (hasNextLevel) {
+            document.getElementById('submit-modal-next').addEventListener('click', () => {
+                modal.remove();
+                loadLevel(currentLevel + 1);
+            });
+        }
+    }
+
+    function showEndGameOverlay() {
+        let existing = document.getElementById('endgame-overlay');
+        if (existing) existing.remove();
+
+        const levels = analytics._reportData.diagnostics.levels;
+        let perLevelHTML = '';
+        levels.forEach((lvl, i) => {
+            perLevelHTML += `<div>Level ${i + 1}: <strong>${lvl.xpEarned || 0} XP</strong></div>`;
+        });
+
+        // Send final analytics
+        const finalPayload = {
+            event: 'game_completed',
+            game_completed: true,
+            final_total_xp: totalXP,
+            per_level_xp: levels.map(l => l.xpEarned || 0)
+        };
+        analytics.addRawMetric('game_completed', 'true');
+        analytics.addRawMetric('final_total_xp', totalXP);
+        analytics.submitReport();
+        try { if (window.ReactNativeWebView) window.ReactNativeWebView.postMessage(JSON.stringify(finalPayload)); } catch(e) {}
+        try { window.parent.postMessage(finalPayload, '*'); } catch(e) {}
+
+        const overlay = document.createElement('div');
+        overlay.id = 'endgame-overlay';
+        overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(1,32,28,0.92);backdrop-filter:blur(10px);display:flex;justify-content:center;align-items:center;z-index:2000;';
+        overlay.innerHTML = `
+            <div style="background:var(--card-background);border:1px solid var(--accent-color);border-radius:16px;padding:40px;max-width:420px;width:90%;text-align:center;">
+                <h1 style="color:var(--accent-color);margin-bottom:8px;">🏆 Game Complete!</h1>
+                <p style="margin-bottom:20px;opacity:0.8;">You've conquered all levels!</p>
+                <div style="font-size:2em;margin-bottom:16px;">⭐ ${totalXP} XP</div>
+                <div style="text-align:left;margin-bottom:24px;line-height:2;">
+                    <h3 style="color:var(--accent-color);margin-bottom:8px;">Per-Level Breakdown</h3>
+                    ${perLevelHTML}
+                </div>
+                <button id="endgame-play-again" style="padding:12px 32px;border-radius:8px;border:none;background:var(--accent-color);color:var(--background-color);cursor:pointer;font-family:inherit;font-weight:bold;font-size:1.1em;">Play Again 🔄</button>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+
+        document.getElementById('endgame-play-again').addEventListener('click', () => {
+            overlay.remove();
+            totalXP = 0;
+            level1Completed = false;
+            level2Completed = false;
+            currentLevel = 1;
+            localStorage.removeItem('invisibleWorldProgress');
+            analytics.initialize('invisible_world_crossword', 'session_' + Date.now());
+            updateXPDisplay();
+            level2Btn.disabled = true;
+            level2Btn.textContent = '🔒 Level 2';
+            loadLevel(1);
+        });
     }
 
     function showSuccessOverlay(xpEarned, accuracy, timeTaken) {
@@ -569,6 +677,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         successOverlay.classList.remove('hidden');
+
+        // If all levels complete, show end game overlay after a short delay
+        if (level1Completed && level2Completed) {
+            setTimeout(() => {
+                successOverlay.classList.add('hidden');
+                showEndGameOverlay();
+            }, 2000);
+        }
     }
 
     // --- SECRET CODES & EVENT LISTENERS ---
