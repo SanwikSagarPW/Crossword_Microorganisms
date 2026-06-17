@@ -531,7 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
             currentAccuracyValue.textContent = `${accuracy}%`;
             attemptsValue.textContent = checkAttempts;
 
-            // Send analytics on every submit
+            // Send lightweight mid-attempt event (no full report — score not final yet)
             const submitPayload = {
                 event: 'level_submit',
                 level: currentLevel,
@@ -543,7 +543,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 incorrect: incorrectCount,
                 empty: emptyCount
             };
-            analytics.submitReport();
             try { if (window.ReactNativeWebView) window.ReactNativeWebView.postMessage(JSON.stringify(submitPayload)); } catch(e) {}
             try { window.parent.postMessage(submitPayload, '*'); } catch(e) {}
 
